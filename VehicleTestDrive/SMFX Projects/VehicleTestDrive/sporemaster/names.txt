@@ -1,0 +1,47 @@
+names
+camera_properties~	0x40410100
+ve_editor_waterbase
+layouts_atlas~	0x40464200
+st
+models
+auto_editor_rigblocks~_ve_testdrive_water
+ep1_effects_3~	0x408a4302
+sti
+sfx_veh_editor_sea_amb
+auto_editor_rigblocks~_ve_testdrive_air
+ve_testdrive_water
+stio
+feed_sad_battle
+ve_testdrive_air
+hash(vtd_waterbg)
+EDI_TemplateShopper
+auto_camera_properties~_VehicleTestDriveCam
+AssetBrowserConfig
+editor_rigblocks~	0x40606000
+s
+uibutton1
+auto_layouts_atlas~_vtd_spui
+vtd_spui
+sporepedia
+1
+uibutton2
+uibutton3
+0
+uibutton4
+auto_AssetBrowserConfig_vle_Templateshopper
+vle_Templateshopper
+ve_editor_airbase_background
+auto_editor_rigblocks~_vehicle_testdrive_bg
+pe_editor_planet_background
+vehicles
+VehicleTemplate
+vehicle_testdrive_bg
+VehicleTestDriveCam
+DefaultTemplate
+graphics_atlas~	0x31a44893
+ve_testdrive_water-14
+ve_testdrive_space
+stio;
+vehicletestdrive
+auto_editor_rigblocks~_ve_testdrive_space
+sporemaster

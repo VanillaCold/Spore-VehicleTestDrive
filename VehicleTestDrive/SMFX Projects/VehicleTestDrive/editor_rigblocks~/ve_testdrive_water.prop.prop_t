@@ -1,0 +1,16 @@
+key parent models!DefaultTemplate.prop
+bboxs modelBoundingBox
+	(-53.8351746, -54.9414406, -12.1196203) (53.8351746, 55.8756561, 19.8940868)
+end
+float modelBoundingRadius 80.100502
+keys modelEffect
+	0x6CDF67BC
+end
+transforms modelEffectTransforms
+	-offset (0, 0, 0) -scale 100 -rotateXYZ 0 -0 0
+end
+key modelMeshLOD0 editor_rigblocks~!ve_testdrive_water.rw4
+
+float VTD-BGSize 2.5
+float VTD-BGHeight 0.25
+float VTD-BGSpaceshipHeight -47.4375

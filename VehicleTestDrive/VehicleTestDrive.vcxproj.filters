@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="VehicleTestDrive">
+      <UniqueIdentifier>{3880d018-2395-4502-abfe-4b83e0817aab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal">
+      <UniqueIdentifier>{d62ad12d-69d8-4933-8342-03043c9adc22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VehicleTestDrive\Camera">
+      <UniqueIdentifier>{4effca74-0ead-49e6-8eb8-8eaea56dc37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VehicleTestDrive\GameMode">
+      <UniqueIdentifier>{f668f9ba-5814-4180-af6f-fbecabc3706b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VehicleTestDrive\WinProcs">
+      <UniqueIdentifier>{12d8b054-6284-4088-aecc-d333241be094}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="targetver.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCheat.h">
+      <Filter>VehicleTestDrive</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGameMode.h">
+      <Filter>VehicleTestDrive\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="VTDCamera.h">
+      <Filter>VehicleTestDrive\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="VTDSporepediaButton.h">
+      <Filter>VehicleTestDrive\WinProcs</Filter>
+    </ClInclude>
+    <ClInclude Include="VTDExitButton.h">
+      <Filter>VehicleTestDrive\WinProcs</Filter>
+    </ClInclude>
+    <ClInclude Include="VTDBackgroundSwitcher.h">
+      <Filter>VehicleTestDrive\WinProcs</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>VehicleTestDrive</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="MyCheat.cpp">
+      <Filter>VehicleTestDrive</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGameMode.cpp">
+      <Filter>VehicleTestDrive\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="VTDCamera.cpp">
+      <Filter>VehicleTestDrive\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="VTDSporepediaButton.cpp">
+      <Filter>VehicleTestDrive\WinProcs</Filter>
+    </ClCompile>
+    <ClCompile Include="VTDExitButton.cpp">
+      <Filter>VehicleTestDrive\WinProcs</Filter>
+    </ClCompile>
+    <ClCompile Include="VTDBackgroundSwitcher.cpp">
+      <Filter>VehicleTestDrive\WinProcs</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SdkPathConfig.props" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt">
+      <Filter>Internal</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
