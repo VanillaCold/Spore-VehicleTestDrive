@@ -28,6 +28,7 @@ void MyCheat::ParseLine(const ArgScript::Line& line)
 
 void MyCheat::OnShopperAccept(const ResourceKey& selection)
 {
+	MyGameMode::prevGameMode = GameModeManager.GetActiveModeID();
 	MyGameMode::selection = selection;
 	//cAssetMetadataPtr intptrthingy;
 	//Pollinator::GetMetadata(selection.instanceID, selection.groupID, intptrthingy);
@@ -36,9 +37,18 @@ void MyCheat::OnShopperAccept(const ResourceKey& selection)
 	PropertyListPtr propList;
 	if (!PropManager.GetPropertyList(selection.instanceID, selection.groupID, propList))
 	{
+		//cAssetMetadataPtr metadata;
+		//Pollinator::GetMetadata(selection.instanceID,selection.groupID,metadata);
 		//App::ConsolePrintF("Error: The creation is not baked. Preview it in the Sporepedia before loading it into this game mode.");
-		BakeManager.func4Ch(selection, NULL);
-		GameModeManager.SetActiveMode(id("VehicleTestDriveGM"));
+		if (selection.groupID != 0x408A0000)
+		{
+			BakeManager.func4Ch(selection, NULL);
+			GameModeManager.SetActiveMode(id("VehicleTestDriveGM"));
+		}
+		else 
+		{
+			App::ConsolePrintF("This creation cannot be used for Vehicle Test Drive.");
+		}
 	}
 	else
 	{

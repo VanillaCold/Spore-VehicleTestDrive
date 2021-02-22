@@ -52,6 +52,7 @@ public:
 
 	void SwapBG(uint32_t bg_id,float size,float height, float SpaceHeight);
 
+	static uint32_t prevGameMode;
 	static uint32_t spaceship;
 	static ResourceKey selection;
 	static Vector3 vehicleoffset;

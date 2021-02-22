@@ -23,6 +23,8 @@ void Initialize()
 	GameModeManager.AddGameMode(new MyGameMode(), id("VehicleTestDriveGM"), "VehicleTestDriveGM");
 	CheatManager.AddCheat("entercustomgamemode", new MyCheat());
 	CameraManager.PutCamera(id("VTDCamera"), new VTDCamera());
+	//auto gm = MyGameMode::Get();
+	//gm->world = ModelManager.CreateWorld(id("chocice75modelworld"));
 }
 
 void Dispose()

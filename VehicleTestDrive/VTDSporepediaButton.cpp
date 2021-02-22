@@ -49,6 +49,7 @@ bool VTDSporepediaButton::HandleUIMessage(IWindow* window, const Message& messag
 	{
 		Sporepedia::ShopperRequest request(this);
 		request.shopperID = id("vle_Templateshopper");
+		//request.
 		//request.field_30 = 
 		request.Show(request);
 		MyGameMode::layout.SetVisible(false);
@@ -63,17 +64,29 @@ void VTDSporepediaButton::OnShopperAccept(const ResourceKey& selection)
 	PropertyListPtr propList;
 	if (!PropManager.GetPropertyList(selection.instanceID, selection.groupID, propList))
 	{
-		if (selection != ResourceKey(0, 0, 0)) { /*App::ConsolePrintF("Error: The creation is not baked. Preview it in the Sporepedia before loading it into this game mode.");*/ 		
-		BakeManager.func4Ch(selection, NULL);
-		MyGameMode::selection = selection;
-		GameModeManager.SetActiveMode(kGGEMode);
-		GameModeManager.SetActiveMode(id("VehicleTestDriveGM"));
+		if (selection != ResourceKey(0, 0, 0))
+		{ /*App::ConsolePrintF("Error: The creation is not baked. Preview it in the Sporepedia before loading it into this game mode.");*/
+			BakeManager.func4Ch(selection, NULL);
+			MyGameMode::selection = selection;
+			GameModeManager.SetActiveMode(kGGEMode);
+			GameModeManager.SetActiveMode(id("VehicleTestDriveGM"));
+		}
+		else
+		{
+			MyGameMode::layout.SetVisible(true);
 		}
 	}
 	else
 	{
-		MyGameMode::selection = selection;
-		GameModeManager.SetActiveMode(kGGEMode);
-		GameModeManager.SetActiveMode(id("VehicleTestDriveGM"));
+		if (selection != ResourceKey(0, 0, 0))
+		{
+			MyGameMode::selection = selection;
+			GameModeManager.SetActiveMode(kGGEMode);
+			GameModeManager.SetActiveMode(id("VehicleTestDriveGM"));
+		}
+		else
+		{
+			MyGameMode::layout.SetVisible(true);
+		}
 	}
 }

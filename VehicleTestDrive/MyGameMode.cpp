@@ -3,6 +3,7 @@
 #include <Spore\UTFWin\cSPUIMessageBox.h>
 #include "VTDSporepediaButton.h"
 #include "VTDBackgroundSwitcher.h"
+#include <Spore\Sporepedia\AssetViewManager.h>
 //#include <Spore\Sporepedia\ObjectTemplateDB.h>
 MyGameMode::MyGameMode()
 {
@@ -10,7 +11,6 @@ MyGameMode::MyGameMode()
 
 MyGameMode::~MyGameMode()
 {
-
 }
 
 // For internal use, do not touch this.
@@ -56,6 +56,8 @@ bool MyGameMode::OnEnter()
 	swarmworld = SwarmManager.GetActiveWorld();
 	world->SetVisible(true);
 	RenderManager.AddRenderable(world->ToRenderable(), Graphics::kRenderQueueMain);
+	//AssetViewManager.
+	//RenderManager.AddRenderable(world->ToRenderable(), Graphics::kRenderQueueMain);
 	// Called when the game mode is entered. Here you should load your effects and models,
 	// load the UI, add custom renderers, etc.
 
@@ -173,7 +175,7 @@ void* MyGameMode::func20h(int)
 bool MyGameMode::OnKeyDown(int virtualKey, KeyModifiers modifiers)
 {
 	mInput.OnKeyDown(virtualKey, modifiers);
-	if (mInput.IsKeyDown(VK_DOWN))
+	/*if (mInput.IsKeyDown(VK_DOWN))
 	{
 		if (currentbackground == 0)
 		{
@@ -202,7 +204,7 @@ bool MyGameMode::OnKeyDown(int virtualKey, KeyModifiers modifiers)
 			world->UpdateModel(background.get());
 			return true;
 		}
-	}
+	}*/
 
 	// Return true if the keyboard event has been handled in this method.
 	return false;
@@ -264,6 +266,14 @@ bool MyGameMode::OnMouseWheel(int wheelDelta, float mouseX, float mouseY, MouseS
 
 void MyGameMode::Update(float delta1, float delta2)
 {
+	auto offset = model->GetTransform().GetOffset();
+	auto transform = model->GetTransform();
+	//offset = model->GetTransform().GetOffset();
+	//transform.SetOffset(min(30.0F, offset.x), min(30.0F, offset.y), min(30.0F, offset.z));
+	//offset = transform.GetOffset();
+	//transform.SetOffset(max(-30.0F, offset.x), max(-30.0F, offset.y), max(-30.0F, offset.z));
+	//offset = model->GetTransform().GetOffset();
+	//model->SetTransform(transform);
 	BoundingBox bounds = { { -15.0F, -15.0F, -15.0F}, {15.0F, 15.0F, 15.0F} };
 	if (mInput.IsKeyDown(VK_LEFT))
 	{
@@ -294,10 +304,10 @@ void MyGameMode::Update(float delta1, float delta2)
 		auto test = (model->GetTransform().GetOffset() + targetoffset.y);
 		//if (test.x  > 15 || test.y > 15 || test.z > 15) { targetoffset.y = 0; }
 		//if (test.x < -15 || test.y < -15 || test.z < -15) { targetoffset.y = 0; }
-		if (!bounds.Contains(test)) { model->GetTransform().SetOffset(max(min(15.0F, model->GetTransform().GetOffset().x), -15.0F), max(min(15.0F, model->GetTransform().GetOffset().y), -15.0F), max(min(15.0F, model->GetTransform().GetOffset().z), -15.0F)); }
+		//if (!bounds.Contains(test)) { model->GetTransform().SetOffset(max(min(15.0F, model->GetTransform().GetOffset().x), -15.0F), max(min(15.0F, model->GetTransform().GetOffset().y), -15.0F), max(min(15.0F, model->GetTransform().GetOffset().z), -15.0F)); }
 	}
 
-	auto offset = model->GetTransform().GetOffset();
+	offset = model->GetTransform().GetOffset();
 	auto direction = model->GetTransform().GetRotation();
 	//auto thingth::Matrix3::
 	model->SetTransform(model->GetTransform().Multiply(Transform().SetOffset(targetoffset).SetRotation(targetdirection)));
@@ -313,12 +323,40 @@ void MyGameMode::Update(float delta1, float delta2)
 	if (targetoffset.x < 0.015125) { targetoffset.x = 0; }
 	auto dir = targetdirection.ToEuler() /= 1.5;
 
-	auto transform = model->GetTransform();
+	
+	/*transform = model->GetTransform();
 	offset = model->GetTransform().GetOffset();
 	targetdirection = Math::Matrix3::FromEuler(dir);
-	transform.SetOffset(min(30.0F, offset.x), min(30.0F, offset.y), min(15.0F, offset.z));
+	transform.SetOffset(min(30.0F, offset.x), min(50.0F, offset.y), min(50.0F, offset.z));
 	offset = transform.GetOffset();
-	transform.SetOffset(max(-30.0F, offset.x), max(-30.0F, offset.y), max(-15.0F, offset.z));
+	transform.SetOffset(max(-30.0F, offset.x), max(-50.0F, offset.y), max(-50.0F, offset.z));
+	offset = model->GetTransform().GetOffset();
+	model->SetTransform(transform);*/
+
+	transform = model->GetTransform();
+	offset = model->GetTransform().GetOffset();
+	Vector3 newoffset = model->GetTransform().GetOffset();
+
+	float x = offset.x;
+	float y = offset.y;
+	float z = offset.z;
+
+	targetdirection = Math::Matrix3::FromEuler(dir);
+	
+	if (transform.GetOffset().x > 40.0F) { newoffset.x = offset.x - ((x - 40.0F) / 40); }
+	if (transform.GetOffset().y > 40.0F) { newoffset.y = offset.y - ((y - 40.0F) / 40); }
+	if (transform.GetOffset().z > 40.0F) { newoffset.z = offset.z - ((z - 40.0F) / 40); }
+
+	if (transform.GetOffset().x < -40.0F) { newoffset.x = offset.x - ((x + 40.0F) / 40); }
+	if (transform.GetOffset().y < -40.0F) { newoffset.y = offset.y - ((y + 40.0F) / 40); }
+	if (transform.GetOffset().z < -40.0F) { newoffset.z = offset.z - ((z + 40.0F) / 40); }
+
+	//transform.SetOffset(min(40.0F, offset.x), min(40.0F, offset.y), min(40.0F, offset.z));
+	//offset = transform.GetOffset();
+	//transform.SetOffset(max(-40.0F, offset.x), max(-40.0F, offset.y), max(-40.0F, offset.z));
+	
+	transform.SetOffset(newoffset);
+
 	offset = model->GetTransform().GetOffset();
 	model->SetTransform(transform);
 
@@ -358,6 +396,7 @@ ResourceKey MyGameMode::selection;
 MyGameMode* MyGameMode::sInstance;
 Vector3 MyGameMode::vehicleoffset;
 UTFWin::UILayout MyGameMode::layout;
+uint32_t MyGameMode::prevGameMode = 0;
 
 //old movement code
 

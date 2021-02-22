@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "VTDExitButton.h"
+#include "MyGameMode.h"
 
 VTDExitButton::VTDExitButton()
 {
@@ -45,7 +46,11 @@ bool VTDExitButton::HandleUIMessage(IWindow* window, const Message& message)
 {
 	if (message.IsType(kMsgButtonClick))
 	{
-		GameModeManager.SetActiveMode(kGGEMode);
+		if (MyGameMode::prevGameMode != 0 && MyGameMode::prevGameMode != kEditorMode)
+		{
+			GameModeManager.SetActiveMode(MyGameMode::prevGameMode);
+		}
+		else { GameModeManager.SetActiveMode(kGGEMode); }
 		return true;
 	}
 	// Return true if the message was handled, and therefore no other window procedure should receive it.
