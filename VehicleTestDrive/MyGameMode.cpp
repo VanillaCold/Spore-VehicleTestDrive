@@ -132,6 +132,7 @@ bool MyGameMode::OnEnter()
 	layout.GetContainerWindow()->FitParentArea(layout.GetContainerWindow());
 	auto sporepediabutton = layout.FindWindowByID(0x06FCB630);
 	sporepediabutton->AddWinProc(new VTDSporepediaButton());
+	if (editor != nullptr) { window->RemoveWindow(sporepediabutton); }
 	auto exitbutton = layout.FindWindowByID(0x90439D7C);
 	exitbutton->AddWinProc(new VTDExitButton());
 	auto thingy1 = layout.FindWindowByID(id("uibutton1"));
@@ -158,14 +159,17 @@ void MyGameMode::OnExit()
 	world->Dispose(); //remove model world
 	WindowManager.GetMainWindow()->RemoveWindow(window); //remove VTD SPUI
 
-	int i = 0;
-	if (prevGameMode == kEditorMode && editor != nullptr) {
-		while (Editors::GetEditor()->mEditorRequest->activeModeID = id("VehicleTestDriveGM")) //make sure that exiting the editor doesn't force you back into VTD after leaving VTD.
-		{
-			Editors::GetEditor()->mEditorRequest->activeModeID = editor->activeModeID;
-			if (editor->activeModeID = id("VehicleTestDriveGM")) { editor->activeModeID = kGGEMode; }
-			i++;
-			if (i > 5000) { break; } //failsafe! Woo!
+	//if (GameModeManager.GetActiveModeID() == kEditorMode)
+	{
+		int i = 0;
+		if (prevGameMode == kEditorMode && editor != nullptr) {
+			while (Editors::GetEditor()->mEditorRequest->activeModeID = id("VehicleTestDriveGM")) //make sure that exiting the editor doesn't force you back into VTD after leaving VTD.
+			{
+				Editors::GetEditor()->mEditorRequest->activeModeID = editor->activeModeID;
+				if (editor->activeModeID = id("VehicleTestDriveGM")) { editor->activeModeID = kGGEMode; }
+				i++;
+				if (i > 5000) { break; } //failsafe! Woo!
+			}
 		}
 	}
 
