@@ -19,6 +19,7 @@ class MyGameMode
 	ModelPtr background2;
 	VTDCameraPtr cam;
 	
+	float bounds = 40.0F;
 	int currentbackground = 0;
 	bool isspaceship = false;
 	float friction = 0.0F;
@@ -53,11 +54,14 @@ public:
 	void SwapBG(uint32_t bg_id,float size,float height, float SpaceHeight);
 
 	static uint32_t prevGameMode;
+	//static uint32_t prevEditorGameMode;
+	static Editors::EditorModel* prevEdModel;
 	static uint32_t spaceship;
 	static ResourceKey selection;
 	static Vector3 vehicleoffset;
 	static UTFWin::UILayout layout;
 	static MyGameMode* Get();
+	static EditorRequestPtr editor;
 protected:
 	GameInput mInput;
 	static MyGameMode* sInstance;

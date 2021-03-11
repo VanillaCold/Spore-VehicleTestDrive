@@ -150,8 +150,9 @@ bool VTDCamera::OnMouseWheel(int wheelDelta, float mouseX, float mouseY, MouseSt
 {
 	mInput.OnMouseWheel(wheelDelta, mouseX, mouseY, mouseState);
 
-	mDistance -= (wheelDelta / (120 * 4.0f)) * min(1.0F,(mDistance/1.125F));
+	mDistance -= (wheelDelta / (120 * 4.0f)) * max(0.5F,(mDistance/2.25F));
 	if (mDistance < 0) { mDistance = 0.1; }
+	mDistance = min(mDistance, 50.0F);
 
 	return false;
 	// Return true if the mouse event has been handled in this method.

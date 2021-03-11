@@ -47,7 +47,8 @@ bool MyGameMode::Dispose()
 bool MyGameMode::OnEnter()
 {
 	sInstance = this;
-	if (spaceship == 0) { spaceship = 0x06576dbd; }
+	bounds = 65;
+	if (spaceship == 0) { spaceship = 0x06576dbd; bounds = 40; }
 	chocicetdeffectworld = SwarmManager.CreateWorld(id("VehicleTestDrive"));
 	chocicetdeffectworld->SetState(Swarm::kStateActive);
 	world = ModelManager.CreateWorld(id("chocice75modelworld"));
@@ -154,8 +155,20 @@ bool MyGameMode::OnEnter()
 
 void MyGameMode::OnExit()
 {
-	world->Dispose();
-	WindowManager.GetMainWindow()->RemoveWindow(window);
+	world->Dispose(); //remove model world
+	WindowManager.GetMainWindow()->RemoveWindow(window); //remove VTD SPUI
+
+	int i = 0;
+	if (prevGameMode == kEditorMode && editor != nullptr) {
+		while (Editors::GetEditor()->mEditorRequest->activeModeID = id("VehicleTestDriveGM")) //make sure that exiting the editor doesn't force you back into VTD after leaving VTD.
+		{
+			Editors::GetEditor()->mEditorRequest->activeModeID = editor->activeModeID;
+			if (editor->activeModeID = id("VehicleTestDriveGM")) { editor->activeModeID = kGGEMode; }
+			i++;
+			if (i > 5000) { break; } //failsafe! Woo!
+		}
+	}
+
 	// Called when the game mode is exited. Here you should kill all effects and models, 
 	// stop any renderers, unload the UI, etc.
 	//auto thin = layout.GetContainerWindow();
@@ -274,7 +287,7 @@ void MyGameMode::Update(float delta1, float delta2)
 	//transform.SetOffset(max(-30.0F, offset.x), max(-30.0F, offset.y), max(-30.0F, offset.z));
 	//offset = model->GetTransform().GetOffset();
 	//model->SetTransform(transform);
-	BoundingBox bounds = { { -15.0F, -15.0F, -15.0F}, {15.0F, 15.0F, 15.0F} };
+	//BoundingBox bounds = { { -15.0F, -15.0F, -15.0F}, {15.0F, 15.0F, 15.0F} };
 	if (mInput.IsKeyDown(VK_LEFT))
 	{
 		auto dir = targetdirection.ToEuler();
@@ -342,14 +355,14 @@ void MyGameMode::Update(float delta1, float delta2)
 	float z = offset.z;
 
 	targetdirection = Math::Matrix3::FromEuler(dir);
-	
-	if (transform.GetOffset().x > 40.0F) { newoffset.x = offset.x - ((x - 40.0F) / 40); }
-	if (transform.GetOffset().y > 40.0F) { newoffset.y = offset.y - ((y - 40.0F) / 40); }
-	if (transform.GetOffset().z > 40.0F) { newoffset.z = offset.z - ((z - 40.0F) / 40); }
+	//40.0F
+	if (transform.GetOffset().x > bounds) { newoffset.x = offset.x - ((x - bounds) / bounds); }
+	if (transform.GetOffset().y > bounds) { newoffset.y = offset.y - ((y - bounds) / bounds); }
+	if (transform.GetOffset().z > bounds) { newoffset.z = offset.z - ((z - bounds) / bounds); }
 
-	if (transform.GetOffset().x < -40.0F) { newoffset.x = offset.x - ((x + 40.0F) / 40); }
-	if (transform.GetOffset().y < -40.0F) { newoffset.y = offset.y - ((y + 40.0F) / 40); }
-	if (transform.GetOffset().z < -40.0F) { newoffset.z = offset.z - ((z + 40.0F) / 40); }
+	if (transform.GetOffset().x < -bounds) { newoffset.x = offset.x - ((x + bounds) / bounds); }
+	if (transform.GetOffset().y < -bounds) { newoffset.y = offset.y - ((y + bounds) / bounds); }
+	if (transform.GetOffset().z < -bounds) { newoffset.z = offset.z - ((z + bounds) / bounds); }
 
 	//transform.SetOffset(min(40.0F, offset.x), min(40.0F, offset.y), min(40.0F, offset.z));
 	//offset = transform.GetOffset();
@@ -397,6 +410,9 @@ MyGameMode* MyGameMode::sInstance;
 Vector3 MyGameMode::vehicleoffset;
 UTFWin::UILayout MyGameMode::layout;
 uint32_t MyGameMode::prevGameMode = 0;
+Editors::EditorModel* MyGameMode::prevEdModel = nullptr;
+EditorRequestPtr MyGameMode::editor = nullptr;//new Editors::EditorRequest();
+//Editors::EditorModel* prevEdModel = nullptr;
 
 //old movement code
 

@@ -19,40 +19,55 @@ void MyCheat::ParseLine(const ArgScript::Line& line)
 {
 	// This method is called when your cheat is invoked.
 	// Put your cheat code here.
-	Sporepedia::ShopperRequest request(this);
-	request.shopperID = id("vle_Templateshopper");
-	request.Show(request);
+	//Editor.mpEditorModel->
+	if (!line.HasFlag("loadeditormodel"))
+	{
+		Sporepedia::ShopperRequest request(this);
+		request.shopperID = id("vle_Templateshopper");
+		request.Show(request);
+	}
+	else if (MyGameMode::Get()->prevEdModel != nullptr){ Editor.mpEditorModel = MyGameMode::Get()->prevEdModel; }
 }
 
 
 
 void MyCheat::OnShopperAccept(const ResourceKey& selection)
 {
-	MyGameMode::prevGameMode = GameModeManager.GetActiveModeID();
-	MyGameMode::selection = selection;
-	//cAssetMetadataPtr intptrthingy;
-	//Pollinator::GetMetadata(selection.instanceID, selection.groupID, intptrthingy);
-	//intptrthingy->
-	
-	PropertyListPtr propList;
-	if (!PropManager.GetPropertyList(selection.instanceID, selection.groupID, propList))
+	if (selection != ResourceKey(0, 0, 0)) //check if creation was even selected or not
 	{
-		//cAssetMetadataPtr metadata;
-		//Pollinator::GetMetadata(selection.instanceID,selection.groupID,metadata);
-		//App::ConsolePrintF("Error: The creation is not baked. Preview it in the Sporepedia before loading it into this game mode.");
-		if (selection.groupID != 0x408A0000)
+		MyGameMode::prevGameMode = GameModeManager.GetActiveModeID();
+		//MyGameMode::
+		MyGameMode::selection = selection;
+
+		PropertyListPtr propList;
+		if (!PropManager.GetPropertyList(selection.instanceID, selection.groupID, propList))
 		{
-			BakeManager.func4Ch(selection, NULL);
+			MyGameMode::editor = new Editors::EditorRequest();
+			if (selection.groupID != 0x408A0000) //check if creation is adventure or not
+			{
+				auto test = Editors::GetEditor();
+				test->editorTranslateModelOnSave = test->editorTranslateModelOnSave;
+				if (GameModeManager.GetActiveModeID() == kEditorMode) 
+				{ 
+					MyGameMode::editor = Editor.mEditorRequest;
+				}
+				else { MyGameMode::prevEdModel = nullptr; }
+				BakeManager.func4Ch(selection, NULL); //bake model
+				GameModeManager.SetActiveMode(id("VehicleTestDriveGM")); //set game mode
+			}
+			else
+			{
+				App::ConsolePrintF("This creation cannot be used for Vehicle Test Drive.");
+			}
+		}
+		else
+		{
+			auto test = Editors::GetEditor();
+			test->editorTranslateModelOnSave = test->editorTranslateModelOnSave;
+			if (GameModeManager.GetActiveModeID() == kEditorMode) { MyGameMode::editor = Editor.mEditorRequest; } //if current game mode is editor, give VTD a copy of the current editor request
+			else { MyGameMode::editor = nullptr; } //if current game mode isn't the editor, set 'editor' variable for VTD to nullptr
 			GameModeManager.SetActiveMode(id("VehicleTestDriveGM"));
 		}
-		else 
-		{
-			App::ConsolePrintF("This creation cannot be used for Vehicle Test Drive.");
-		}
-	}
-	else
-	{
-		GameModeManager.SetActiveMode(id("VehicleTestDriveGM"));
 	}
 }
 
