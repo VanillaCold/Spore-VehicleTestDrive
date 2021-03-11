@@ -46,6 +46,9 @@
     <ClInclude Include="VTDBackgroundSwitcher.h">
       <Filter>VehicleTestDrive\WinProcs</Filter>
     </ClInclude>
+    <ClInclude Include="VTDEditorButton.h">
+      <Filter>VehicleTestDrive\WinProcs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -70,6 +73,9 @@
       <Filter>VehicleTestDrive\WinProcs</Filter>
     </ClCompile>
     <ClCompile Include="VTDBackgroundSwitcher.cpp">
+      <Filter>VehicleTestDrive\WinProcs</Filter>
+    </ClCompile>
+    <ClCompile Include="VTDEditorButton.cpp">
       <Filter>VehicleTestDrive\WinProcs</Filter>
     </ClCompile>
   </ItemGroup>
