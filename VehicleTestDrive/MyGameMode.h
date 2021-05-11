@@ -62,6 +62,7 @@ public:
 	static UTFWin::UILayout layout;
 	static MyGameMode* Get();
 	static EditorRequestPtr editor;
+	float VehicleSpeed;
 protected:
 	GameInput mInput;
 	static MyGameMode* sInstance;

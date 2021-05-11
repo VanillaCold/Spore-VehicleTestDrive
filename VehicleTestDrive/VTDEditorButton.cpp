@@ -58,7 +58,6 @@ bool VTDEditorButton::HandleUIMessage(IWindow* window, const Message& message)
 			MyGameMode::prevGameMode = GameModeManager.GetActiveModeID();
 			//MyGameMode::
 			MyGameMode::selection = selection;
-
 			PropertyListPtr propList;
 			if (!PropManager.GetPropertyList(selection.instanceID, selection.groupID, propList))
 			{

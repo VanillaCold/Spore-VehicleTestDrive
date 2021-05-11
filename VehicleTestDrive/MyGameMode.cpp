@@ -48,7 +48,7 @@ bool MyGameMode::OnEnter()
 {
 	sInstance = this;
 	bounds = 65;
-	if (spaceship == 0) { spaceship = 0x06576dbd; bounds = 40; }
+	if (spaceship == 0) { spaceship = 0x06576dbd; bounds = 65; }
 	chocicetdeffectworld = SwarmManager.CreateWorld(id("VehicleTestDrive"));
 	chocicetdeffectworld->SetState(Swarm::kStateActive);
 	world = ModelManager.CreateWorld(id("chocice75modelworld"));
@@ -57,6 +57,8 @@ bool MyGameMode::OnEnter()
 	swarmworld = SwarmManager.GetActiveWorld();
 	world->SetVisible(true);
 	RenderManager.AddRenderable(world->ToRenderable(), Graphics::kRenderQueueMain);
+
+
 	//AssetViewManager.
 	//RenderManager.AddRenderable(world->ToRenderable(), Graphics::kRenderQueueMain);
 	// Called when the game mode is entered. Here you should load your effects and models,
@@ -79,9 +81,18 @@ bool MyGameMode::OnEnter()
 	if (isspaceship == true) { friction = 1.0625; }
 	bg = id("BE_editor_base_low");
 	
+	PropertyListPtr propList;
+
 	if (selection.typeID == TypeIDs::ufo) { isspaceship = true; }
 	if (selection.typeID == TypeIDs::ufo) { bg = id("pe_editor_planet_background"); }
 	if (selection.typeID == TypeIDs::vcl) { bg = id("vehicle_testdrive_bg"); isspaceship = false; }
+
+	if (PropManager.GetPropertyList(selection.instanceID, selection.groupID, propList) && isspaceship == 0)
+	{
+		App::Property::GetFloat(propList.get(), 0x720BE500, VehicleSpeed);
+		VehicleSpeed = min(max(0.1F, VehicleSpeed), 1.0F) / 1.125;
+	}
+	else { VehicleSpeed = 1; }
 	
 
 	if (background = world->LoadModel(bg, GroupIDs::EditorRigblocks))
@@ -307,13 +318,7 @@ void MyGameMode::Update(float delta1, float delta2)
 	if (mInput.IsKeyDown(VK_UP))
 	{
 		targetoffset = targetdirection * Vector3({ 0,targetoffset.y + 0.03125F,0 });
-		if (targetoffset.y > 1 && isspaceship == true) { targetoffset.y = 1; }
-		else {
-			if (targetoffset.y > 0.35 && isspaceship == false)
-			{
-				targetoffset.y = 0.35;
-			}
-		}
+		if (targetoffset.y > VehicleSpeed) { targetoffset.y = VehicleSpeed; }
 		/*auto test = model->GetTransform().Multiply(Transform().SetOffset(targetoffset).SetRotation(targetdirection));
 		auto test2 = model->GetTransform().GetOffset();
 		if (test.GetOffset().y > 30 || test.GetOffset().x > 30 || test.GetOffset().y < -30 || test.GetOffset().x < -30) { targetoffset = Vector3(test2.x - test.GetOffset().x, test2.y - test.GetOffset().y, 0); }
