@@ -2,7 +2,7 @@ key parent models!DefaultTemplate.prop
 bboxs modelBoundingBox
 	(-53.8351746, -54.9414406, -12.1196203) (53.8351746, 55.8756561, 19.8940868)
 end
-float modelBoundingRadius 80.100502
+float modelBoundingRadius 800.100502
 key modelMeshLOD0 editor_rigblocks~!vehicle_testdrive_bg.rw4
 float VTD-BGSize 7.5
 float VTD-BGHeight 47.4375

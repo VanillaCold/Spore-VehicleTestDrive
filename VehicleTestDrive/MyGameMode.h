@@ -63,6 +63,7 @@ public:
 	static MyGameMode* Get();
 	static EditorRequestPtr editor;
 	float VehicleSpeed;
+	Clock mClock;
 protected:
 	GameInput mInput;
 	static MyGameMode* sInstance;

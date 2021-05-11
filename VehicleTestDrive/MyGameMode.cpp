@@ -83,9 +83,24 @@ bool MyGameMode::OnEnter()
 	
 	PropertyListPtr propList;
 
-	if (selection.typeID == TypeIDs::ufo) { isspaceship = true; }
-	if (selection.typeID == TypeIDs::ufo) { bg = id("pe_editor_planet_background"); }
-	if (selection.typeID == TypeIDs::vcl) { bg = id("vehicle_testdrive_bg"); isspaceship = false; }
+	if (selection.typeID == TypeIDs::ufo) { isspaceship = true; bg = id("pe_editor_planet_background"); }
+	else 
+	{ 
+		bg = id("vehicle_testdrive_bg"); isspaceship = false;
+		if (editor != nullptr) 
+		{
+			if (editor->editorID == id("VehicleColonyAir") || editor->editorID == id("VehicleCulturalAir") || editor->editorID == id("VehicleEconomicAir") || editor->editorID == id("VehicleMilitaryAir"))
+			{
+				bg = id("ve_testdrive_air");
+			}
+			
+			if (editor->editorID == id("VehicleColonyWater") || editor->editorID == id("VehicleCulturalWater") || editor->editorID == id("VehicleEconomicWater") || editor->editorID == id("VehicleMilitaryWater"))
+			{
+				bg = id("ve_testdrive_water");
+			}
+		}
+		
+	}
 
 	if (PropManager.GetPropertyList(selection.instanceID, selection.groupID, propList) && isspaceship == 0)
 	{
@@ -99,8 +114,18 @@ bool MyGameMode::OnEnter()
 	{
 		world->SetFixedLod(background.get(), 0);
 		background->SetTransform(background->GetTransform().SetScale(15));
-		if (isspaceship == false) { background->SetTransform(background->GetTransform().SetOffset(0, 0, 47.4375).SetScale(7.5)); }
+		PropertyListPtr propList;
+		PropManager.GetPropertyList(bg, GroupIDs::EditorRigblocks, propList);
+		float BGSize = 0;
+		float BGHeight = 0;
+		float BGSpaceshipHeight = 0;
+		App::Property::GetFloat(propList.get(), id("VTD-BGSize"), BGSize);
+		App::Property::GetFloat(propList.get(), id("VTD-BGHeight"), BGHeight);
+		App::Property::GetFloat(propList.get(), id("VTD-BGSpaceshipHeight"), BGSpaceshipHeight);
 		world->UpdateModel(background.get());
+		SwapBG(bg, BGSize, BGHeight, BGSpaceshipHeight);
+		//if (isspaceship == false && bg == id("vehicle_testdrive_bg")) { background->SetTransform(background->GetTransform().SetOffset(0, 0, 47.4375).SetScale(7.5)); }
+		
 	}
 	else { return false; }
 
@@ -173,7 +198,7 @@ void MyGameMode::OnExit()
 	//if (GameModeManager.GetActiveModeID() == kEditorMode)
 	{
 		int i = 0;
-		if (prevGameMode == kEditorMode && editor != nullptr) {
+		if (prevGameMode == kEditorMode && editor != nullptr && this != nullptr) {
 			while (Editors::GetEditor()->mEditorRequest->activeModeID = id("VehicleTestDriveGM")) //make sure that exiting the editor doesn't force you back into VTD after leaving VTD.
 			{
 				Editors::GetEditor()->mEditorRequest->activeModeID = editor->activeModeID;
@@ -334,7 +359,9 @@ void MyGameMode::Update(float delta1, float delta2)
 	//auto thingth::Matrix3::
 	model->SetTransform(model->GetTransform().Multiply(Transform().SetOffset(targetoffset).SetRotation(targetdirection)));
 	if ((!mInput.IsKeyDown(VK_UP)) && (isspaceship == true))
-	{targetoffset /= 1.0625;}
+	{
+		targetoffset /= 1.0625;
+	}
 	else {
 		if ((!mInput.IsKeyDown(VK_UP)) && (isspaceship == false))
 		{
@@ -345,6 +372,36 @@ void MyGameMode::Update(float delta1, float delta2)
 	if (targetoffset.x < 0.015125) { targetoffset.x = 0; }
 	auto dir = targetdirection.ToEuler() /= 1.5;
 
+
+	if ((targetoffset.x > 0 || targetoffset.y > 0))
+	{
+		if (!mClock.IsRunning())
+		{
+			mClock.Start();
+		}
+
+		float time = mClock.GetElapsed();
+
+		auto idcount = world->GetAnimCount(model.get());
+
+		uint32_t* ids = new uint32_t [idcount+1];
+
+		world->GetAnimIDs(model.get(), ids);
+
+		float dsStart, dsEnd;
+
+		world->SetAnimTime(model.get(), ids[0], time);
+		world->GetAnimRange(model.get(), ids[0], dsStart, dsEnd);
+
+		if (time >= (dsEnd - dsStart)) {
+			mClock.Reset();
+			mClock.Start();
+		}
+	}
+	else
+	{
+		mClock.Reset();
+	}
 	
 	/*transform = model->GetTransform();
 	offset = model->GetTransform().GetOffset();
