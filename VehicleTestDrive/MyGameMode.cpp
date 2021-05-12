@@ -83,7 +83,7 @@ bool MyGameMode::OnEnter()
 	
 	PropertyListPtr propList;
 
-	if (selection.typeID == TypeIDs::ufo) { isspaceship = true; bg = id("pe_editor_planet_background"); }
+	if (selection.typeID == TypeIDs::ufo) { isspaceship = true; bg = id("ve_testdrive_space"); }
 	else 
 	{ 
 		bg = id("vehicle_testdrive_bg"); isspaceship = false;
@@ -202,7 +202,14 @@ void MyGameMode::OnExit()
 			while (Editors::GetEditor()->mEditorRequest->activeModeID = id("VehicleTestDriveGM")) //make sure that exiting the editor doesn't force you back into VTD after leaving VTD.
 			{
 				Editors::GetEditor()->mEditorRequest->activeModeID = editor->activeModeID;
-				if (editor->activeModeID = id("VehicleTestDriveGM")) { editor->activeModeID = kGGEMode; }
+				if (editor->activeModeID == id("VehicleTestDriveGM")) 
+				{ 
+					if (prevEditorGameMode == id("VehicleTestDriveGM"))
+					{
+						editor->activeModeID = kGGEMode;
+					}
+					else { editor->activeModeID = prevEditorGameMode; }
+				}
 				i++;
 				if (i > 5000) { break; } //failsafe! Woo!
 			}
@@ -478,6 +485,7 @@ UTFWin::UILayout MyGameMode::layout;
 uint32_t MyGameMode::prevGameMode = 0;
 Editors::EditorModel* MyGameMode::prevEdModel = nullptr;
 EditorRequestPtr MyGameMode::editor = nullptr;//new Editors::EditorRequest();
+uint32_t MyGameMode::prevEditorGameMode = kGGEMode;
 //Editors::EditorModel* prevEdModel = nullptr;
 
 //old movement code

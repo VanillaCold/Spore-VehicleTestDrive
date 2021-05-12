@@ -64,6 +64,7 @@ public:
 	static EditorRequestPtr editor;
 	float VehicleSpeed;
 	Clock mClock;
+	static uint32_t prevEditorGameMode;
 protected:
 	GameInput mInput;
 	static MyGameMode* sInstance;

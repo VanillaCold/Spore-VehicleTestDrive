@@ -67,6 +67,11 @@ bool VTDEditorButton::HandleUIMessage(IWindow* window, const Message& message)
 				if (GameModeManager.GetActiveModeID() == kEditorMode)
 				{
 					MyGameMode::editor = Editor.mEditorRequest;
+					MyGameMode::prevEditorGameMode = Editor.mEditorRequest->activeModeID;
+					if (Editors::GetEditor()->mEditorRequest->activeModeID == id("VehicleTestDriveGM"))
+					{
+						SporeDebugPrint("ABORT! ABORT! ABORRRRRTTTTTTTT!");
+					}
 					if (Editors::GetEditor()->mpEditorModel != nullptr) { MyGameMode::editor->creationKey = Editors::GetEditor()->mpEditorModel->field_0C; }
 				}
 				else { MyGameMode::editor = nullptr; }
