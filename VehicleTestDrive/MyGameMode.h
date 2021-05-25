@@ -4,6 +4,7 @@
 #include <Spore\Swarm\IEffectWorld.h>
 #include "VTDCamera.h"
 #include "VTDExitButton.h"
+#include "VTDTestDummy.h"
 
 #define MyGameModePtr intrusive_ptr<MyGameMode>
 
@@ -12,12 +13,13 @@ class MyGameMode
 	, public DefaultRefCounted
 {
 	UTFWin::Window* window;
-	IModelWorldPtr world;
-	ModelPtr model;
+
+	
 	ModelPtr background;
 	ModelPtr background1;
 	ModelPtr background2;
 	VTDCameraPtr cam;
+
 	
 	float bounds = 40.0F;
 	int currentbackground = 0;
@@ -53,6 +55,8 @@ public:
 
 	void SwapBG(uint32_t bg_id,float size,float height, float SpaceHeight);
 
+	
+	IModelWorldPtr world;
 	static uint32_t prevGameMode;
 	//static uint32_t prevEditorGameMode;
 	static Editors::EditorModel* prevEdModel;
@@ -63,8 +67,13 @@ public:
 	static MyGameMode* Get();
 	static EditorRequestPtr editor;
 	float VehicleSpeed;
+	VTDTestDummyPtr dummy1;
 	Clock mClock;
 	static uint32_t prevEditorGameMode;
+
+	ModelPtr model;
+	Transform oldtransform;
+
 protected:
 	GameInput mInput;
 	static MyGameMode* sInstance;

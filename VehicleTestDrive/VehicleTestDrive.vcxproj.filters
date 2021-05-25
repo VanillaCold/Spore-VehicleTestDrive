@@ -20,6 +20,9 @@
     <Filter Include="VehicleTestDrive\WinProcs">
       <UniqueIdentifier>{12d8b054-6284-4088-aecc-d333241be094}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VehicleTestDrive\Objects">
+      <UniqueIdentifier>{476e403b-a64c-49fc-87d3-31a070cca3b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -49,6 +52,9 @@
     <ClInclude Include="VTDEditorButton.h">
       <Filter>VehicleTestDrive\WinProcs</Filter>
     </ClInclude>
+    <ClInclude Include="VTDTestDummy.h">
+      <Filter>VehicleTestDrive\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -77,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="VTDEditorButton.cpp">
       <Filter>VehicleTestDrive\WinProcs</Filter>
+    </ClCompile>
+    <ClCompile Include="VTDTestDummy.cpp">
+      <Filter>VehicleTestDrive\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

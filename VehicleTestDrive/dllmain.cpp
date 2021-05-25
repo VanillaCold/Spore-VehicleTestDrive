@@ -4,6 +4,7 @@
 #include "MyGameMode.h"
 #include "VTDCamera.h"
 #include "VTDEditorButton.h"
+#include "VTDTestDummy.h"
 
 App::ICamera* VTDCameraFactory(App::PropertyList* propList)
 {
@@ -24,6 +25,7 @@ void Initialize()
 	GameModeManager.AddGameMode(new MyGameMode(), id("VehicleTestDriveGM"), "VehicleTestDriveGM");
 	CheatManager.AddCheat("entercustomgamemode", new MyCheat());
 	CameraManager.PutCamera(id("VTDCamera"), new VTDCamera());
+	
 	//auto gm = MyGameMode::Get();
 	//gm->world = ModelManager.CreateWorld(id("chocice75modelworld"));
 }

@@ -128,6 +128,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="VTDTestDummy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -170,6 +171,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="VTDTestDummy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

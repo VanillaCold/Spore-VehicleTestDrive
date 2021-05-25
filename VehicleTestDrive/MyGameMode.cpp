@@ -4,6 +4,7 @@
 #include "VTDSporepediaButton.h"
 #include "VTDBackgroundSwitcher.h"
 #include <Spore\Sporepedia\AssetViewManager.h>
+#include "VTDTestDummy.h"
 //#include <Spore\Sporepedia\ObjectTemplateDB.h>
 MyGameMode::MyGameMode()
 {
@@ -59,6 +60,7 @@ bool MyGameMode::OnEnter()
 	RenderManager.AddRenderable(world->ToRenderable(), Graphics::kRenderQueueMain);
 
 
+
 	//AssetViewManager.
 	//RenderManager.AddRenderable(world->ToRenderable(), Graphics::kRenderQueueMain);
 	// Called when the game mode is entered. Here you should load your effects and models,
@@ -73,8 +75,9 @@ bool MyGameMode::OnEnter()
 		model->mFlags |= Graphics::kModelFlagHighRes;
 		world->UpdateModel(model.get());
 	}
-
 	else { return false; }
+
+
 
 	uint32_t bg = 0;
 	isspaceship = false;
@@ -109,6 +112,8 @@ bool MyGameMode::OnEnter()
 	}
 	else { VehicleSpeed = 1; }
 	
+	dummy1 = new VTDTestDummy();
+	dummy1->Load(selection, Vector3( 15.0F,15.0F,0 ), { 0,0,0 }, 100);
 
 	if (background = world->LoadModel(bg, GroupIDs::EditorRigblocks))
 	{
@@ -124,6 +129,9 @@ bool MyGameMode::OnEnter()
 		App::Property::GetFloat(propList.get(), id("VTD-BGSpaceshipHeight"), BGSpaceshipHeight);
 		world->UpdateModel(background.get());
 		SwapBG(bg, BGSize, BGHeight, BGSpaceshipHeight);
+
+
+
 		//if (isspaceship == false && bg == id("vehicle_testdrive_bg")) { background->SetTransform(background->GetTransform().SetOffset(0, 0, 47.4375).SetScale(7.5)); }
 		
 	}
@@ -265,7 +273,6 @@ bool MyGameMode::OnKeyDown(int virtualKey, KeyModifiers modifiers)
 			return true;
 		}
 	}*/
-
 	// Return true if the keyboard event has been handled in this method.
 	return false;
 }
@@ -328,6 +335,11 @@ void MyGameMode::Update(float delta1, float delta2)
 {
 	auto offset = model->GetTransform().GetOffset();
 	auto transform = model->GetTransform();
+
+	oldtransform.SetOffset(transform.GetOffset());
+	oldtransform.SetRotation(transform.GetRotation());
+	oldtransform.SetScale(transform.GetScale());
+
 	//offset = model->GetTransform().GetOffset();
 	//transform.SetOffset(min(30.0F, offset.x), min(30.0F, offset.y), min(30.0F, offset.z));
 	//offset = transform.GetOffset();
@@ -445,10 +457,11 @@ void MyGameMode::Update(float delta1, float delta2)
 
 	offset = model->GetTransform().GetOffset();
 	model->SetTransform(transform);
+	//model->mDefaultBBox.ApplyTransform(transform);
 
-	SporeDebugPrint(to_string(offset.x).c_str());
-	SporeDebugPrint(to_string(offset.y).c_str());
-	SporeDebugPrint(to_string(offset.z).c_str());
+	//SporeDebugPrint(to_string(offset.x).c_str());
+	//SporeDebugPrint(to_string(offset.y).c_str());
+	//SporeDebugPrint(to_string(offset.z).c_str());
 	// Called on every frame.
 	// delta1 and delta2 are the ellapsed time in seconds since the last call,
 	// the difference between both is not known.
