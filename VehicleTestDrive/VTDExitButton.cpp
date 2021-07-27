@@ -53,7 +53,12 @@ bool VTDExitButton::HandleUIMessage(IWindow* window, const Message& message)
 		else if (MyGameMode::prevGameMode == kEditorMode) 
 			{
 			auto modemanager = Simulator::cGameModeManager::Get();
-			if (MyGameMode::editor != nullptr) { modemanager->SubmitEditorRequest(MyGameMode::editor.get()); } //enter editor
+			if (MyGameMode::editor != nullptr) 
+			{ 
+				modemanager->SubmitEditorRequest(MyGameMode::editor.get()); //enter editor
+				Editor.mEditorRequest = MyGameMode::editor;
+			} 
+			
 			}
 		else { GameModeManager.SetActiveMode(kGGEMode); } //if no game mode is set, just go back to the GGE.
 		return true;
